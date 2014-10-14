@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+{% block section %}
+{%block content%}  
+<form action='/admin' method='post' class='well'>  
+    <div class='form-group'>  
+        <label class='sr-only'>标题</label>  
+        <input type='text' name='title' class='form-control' placeholder='请输入标题'/>  
+    </div>  
+    <div class='form-group'>  
+        <label class='sr-only'>正文</label>  
+        <textarea rows='20' type='text' name='blog' class='form-control' placeholder='请输入文章正文'></textarea>  
+    </div>  
+    <button type='submit' class='btn btn-warning'>发送</button>  
+</form>  
+{%end%}
+{% end %}

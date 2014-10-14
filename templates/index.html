@@ -1,11 +1,13 @@
-{% extends main.html %}
+{% extends 'main.html' %}
 {% block section %}
 <ul>
+    index : {{ ckname }}
     {% for i in blogs %}
     <li class="items">
-        <h1>{{ i["title"] }}</h1>
+        <a href='/blog/{{i[0]}}'<h1>{{ i["title"] }}</h1>
         <h2>{{ i["author"] }}</h2>
         <p>{{ i["article"] }}</p>
     </li>
+    {% end %}
 </ul>
 {% end %}
