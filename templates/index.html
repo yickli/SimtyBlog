@@ -1,0 +1,11 @@
+{% extends main.html %}
+{% block section %}
+<ul>
+    {% for i in blogs %}
+    <li class="items">
+        <h1>{{ i["title"] }}</h1>
+        <h2>{{ i["author"] }}</h2>
+        <p>{{ i["article"] }}</p>
+    </li>
+</ul>
+{% end %}
