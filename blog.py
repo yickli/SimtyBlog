@@ -23,15 +23,18 @@ class Application(tornado.web.Application):
             (r"/user/login", LoginHandler),
             #(r"/user/logout", LogoutHandler),
             (r"/blog/([^/]+)", BlogHandler),
+            (r"/del/([^/]+)", BlogDelHandler),
             (r"/register", RegisterHandler),
+            
             #(r"/search", SearchHandler),
         ]
         settings = dict(
             blog_title = u"YujieLee",
+            blog_description = u"A blog which is powerd by Tornado and Mongodb.",
             template_path = os.path.join(os.path.dirname(__file__), "templates"),
             static_path = os.path.join(os.path.dirname(__file__), "static"),
             #ui_module = {"Blog" : BlogModule},
-            #xsrf_cookie = True,
+            xsrf_cookie = True,
             cookie_secret = "V}D7:[vrj#",
             #login_url = "user/login",
             #debug = True,
@@ -54,8 +57,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class HomeHandler(BaseHandler):
     def get(self):
-        blogs_tmp = self.db.posts.find()
-        blogs = blogs_tmp
+        blogs = self.db.blogs.find()
         name = self.get_secure_cookie('woleigedadca')
         self.render("index.html", blogs = blogs, ckname = name)
     def post(self):
@@ -119,23 +121,25 @@ class AdminHandler(BaseHandler):
     def get(self):
         name = self.get_secure_cookie("woleigedadca")
         self.render("admin.html", cookieName = name)
-    def post(self):  
-        title=self.get_argument('title')
-        blog=self.get_argument('blog')
-        name=self.get_secure_cookie('woleigedadca')
-        self.db.blogs.insert({'name': name, 'text':blog, 'title':title})
+    def post(self):
+        title = self.get_argument('title')
+        blog = self.get_argument('blog')
+        name = self.get_secure_cookie('woleigedadca')
+        self.db.blogs.insert({'name': name, 'text': blog, 'title': title})
         self.redirect('/blog/'+str(title))
-        
 
 class BlogHandler(BaseHandler):
     def get(self, title):
         name = self.get_secure_cookie("woleigedadca")
-        blog = self.db.blogs.find({'title':title})
+        blog = self.db.blogs.find_one({'title': title})
         self.render("blog.html", cookieName = name, blog = blog)
 
+class BlogDelHandler(BaseHandler):
+    def get(self, title):
+        self.db.blogs.remove({'title': title})
+        self.redirect('/')
 #class CommentHandler(BaseHandler):
 #    def post(self):
-
 
 
 def main():

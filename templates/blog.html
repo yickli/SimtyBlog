@@ -1,7 +1,12 @@
 {% extends 'main.html'%}
 {%block section%}  
-<div>
-    {{cookieName}}
-{{ blog }}  
+<div class="row" style="width: 70%;margin:0 auto;">
+    <div class="col-sm-8 blog-main">
+        <div class="blog-post">
+            <a href="/blog/{{ blog['title'] }}"><h2 class="blog-post-title">{{ blog['title'] }}</h2></a>
+            <p class="blog-post-meta">January 1, 2014 by <a href="#">{{ blog['name'] }}</a></p>
+            {{blog['text']}}
+        </div>
+    </div>
 </div>
 {%end%}  
